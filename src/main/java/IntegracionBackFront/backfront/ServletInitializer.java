@@ -8,7 +8,10 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		Dotenv dotenv
+		Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+		dotenv.entries().forEach(entry ->
+				System.setProperty(entry.getKey(), entry.getValue())
+		);
 		return application.sources(BackfrontApplication.class);
 	}
 
